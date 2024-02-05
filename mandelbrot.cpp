@@ -8,25 +8,39 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
     */
    
    //the canvas coordinates are from 0-1600, 0-900 but we want to be looking at a scale more like -2 to 2, -2 to 2
+   //https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
    //float scaleFactor = 800;
-   int outStart = -2;
-   int outEnd = 2;
-   double xSlope = 1.0 * (outEnd - outStart) / WIDTH;
-   double ySlope = 1.0 * (outEnd - outStart) / HEIGHT;
+   float outStart = -2.5;
+   float outEnd = 2.5;
+   double xSlope = 1.0 * (outEnd - outStart) / WIDTH * 0.25;
+   double ySlope = 1.0 * (outEnd - outStart) / HEIGHT * 0.25;
 
 
    int MAX_ITERATIONS = 50;
-
-   for (int i = 0; i < WIDTH * HEIGHT * 4 ; i += 4) {
+   
+   for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
     //each i is a pixel on the screen
 
     //need an x,y coordinate
-    double x = i % WIDTH;
-    double y = i / WIDTH;
+    //i%WIDTH gives 4 copies, (i*4)%WIDTH gives 16 copies
+    double x = (i)% (WIDTH*4);
+    double y = (i * 1) / WIDTH;
 
     //want to 'map' x,y from 0->width, 0->height to -2->2, -2->2
-    double newX = -2 + xSlope * x;
-    double newY = -2 + ySlope * y;
+    //this is not exactly precisely right and should be moved out into another function
+
+    /*
+    NOTES FOR FIXING SCALING:
+    leaving out the *0.25 in the slope calculations gives you 4 mandelbrots along the top
+    doing ySlope * 0.25 stretches them out so the sets fill the height of the screen
+    doing xSlope * 0.25 stretches them out so they WOULD fit the screen, but it cuts off and tiles 4 times
+    this is fixed by doing i % (WIDTH * 4) -> want to get my head around this more, is there a nicer way to write this / do this correction?
+    ALSO WANT TO ROUND THE MAPPING FUNCTION SO IT'S MORE ACCURATE -> SEE STACKOVERFLOW POST
+    
+    */
+
+    double newX = outStart + xSlope * x;
+    double newY = outStart + ySlope * y;
     x = newX;
     y = newY;
     
@@ -57,6 +71,8 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
 
         n++;
     }
+    
+   
 
     //we now want to colour the pixels depending on how many iterations they took to diverge
     
