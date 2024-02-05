@@ -1,9 +1,26 @@
 #include <SFML/Graphics.hpp>
 
+int WIDTH = 1600;
+int HEIGHT = 900;
+
+
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    //create the window
+    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation");
+
+    //create the texture we will draw to
+    sf::Texture fractalTexture;
+    //make it blank to begin with
+    if (!fractalTexture.create(WIDTH, HEIGHT)) {
+        //error
+        return -1;
+    }
+
+    //create the sprite we will draw the texture to
+    sf::Sprite fractalSprite(fractalTexture);
+
+    //create the pixel array
+    sf::Uint8* pixels = new sf::Uint8[WIDTH * HEIGHT * 4]; //4 bytes per pixel (RGBA)
 
     while (window.isOpen()) {
         sf::Event event;
@@ -11,8 +28,26 @@ int main() {
             if (event.type == sf::Event::Closed) window.close();
         }
 
-        window.clear();
-        window.draw(shape);
+        //render background
+        window.clear(sf::Color::Cyan);
+
+        //TEST!!! update pixel array
+        sf::Uint8* newPixels = new sf::Uint8[WIDTH * HEIGHT * 4];
+
+        for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
+            newPixels[i] = 255; //red
+            newPixels[i + 1] = 0; //green
+            newPixels[i + 2] = 0; //blue
+            newPixels[i + 3] = 255; //alpha
+        }
+
+        pixels = newPixels;
+
+        fractalTexture.update(pixels);
+
+        //draw the sprite
+        window.draw(fractalSprite);
+        //render all calls to draw()
         window.display();
     }
 
