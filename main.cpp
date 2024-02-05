@@ -19,8 +19,12 @@ int main() {
     //create the sprite we will draw the texture to
     sf::Sprite fractalSprite(fractalTexture);
 
-    //create the pixel array
-    sf::Uint8* pixels = new sf::Uint8[WIDTH * HEIGHT * 4]; //4 bytes per pixel (RGBA)
+    //create the main pixel array
+    sf::Uint8* currentPixels = new sf::Uint8[WIDTH * HEIGHT * 4]; //4 bytes per pixel (RGBA)
+    //we can swap between these two pixel arrays and use them like a buffer, rather than creating a new pixel array each frame
+    sf::Uint8* newPixels = new sf::Uint8[WIDTH * HEIGHT * 4];
+
+    long long frameCount = 0;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -32,23 +36,24 @@ int main() {
         window.clear(sf::Color::Cyan);
 
         //TEST!!! update pixel array
-        sf::Uint8* newPixels = new sf::Uint8[WIDTH * HEIGHT * 4];
-
         for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
-            newPixels[i] = 255; //red
+            newPixels[i] = frameCount % 255; //red
             newPixels[i + 1] = 0; //green
             newPixels[i + 2] = 0; //blue
             newPixels[i + 3] = 255; //alpha
         }
 
-        pixels = newPixels;
+        currentPixels = newPixels;
 
-        fractalTexture.update(pixels);
+        fractalTexture.update(currentPixels);
 
         //draw the sprite
         window.draw(fractalSprite);
         //render all calls to draw()
         window.display();
+
+        frameCount++;
+
     }
 
     return 0;
