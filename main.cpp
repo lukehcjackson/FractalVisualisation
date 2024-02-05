@@ -25,7 +25,6 @@ int main() {
     sf::Uint8* currentPixels = new sf::Uint8[WIDTH * HEIGHT * 4]; //4 bytes per pixel (RGBA)
     //we can swap between these two pixel arrays and use them like a buffer, rather than creating a new pixel array each frame
     sf::Uint8* newPixels = new sf::Uint8[WIDTH * HEIGHT * 4];
-    newPixels = mandelbrot();
 
     long long frameCount = 0;
 
@@ -41,6 +40,7 @@ int main() {
         window.clear(sf::Color::Cyan);
 
         //TEST!!! update pixel array
+        /*
         for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
             newPixels[i] = frameCount % 255; //red
             newPixels[i + 1] = (frameCount + i + 500) % 255; //green
@@ -49,6 +49,10 @@ int main() {
         }
 
         currentPixels = newPixels;
+        */
+
+        currentPixels = mandelbrot(WIDTH, HEIGHT, currentPixels);
+        //TODO : do i even need newPixels ??
 
         fractalTexture.update(currentPixels);
 
