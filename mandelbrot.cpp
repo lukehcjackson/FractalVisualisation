@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "helper.h"
 
-sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
+sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, float yOutStart, float yOutEnd, sf::Uint8* pixels) {
 
     /*
     In this method, generate the mandelbrot set for each pixel on the screen
@@ -20,11 +20,12 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
    float xOutEnd = -0.6;
    float yOutStart = 0;
    float yOutEnd = 0.4;
-*/
+
    float xOutStart = -2;
    float xOutEnd = 1;
    float yOutStart = -1;
    float yOutEnd = 1;
+*/
 
    int MAX_ITERATIONS = 50;
    
@@ -83,7 +84,7 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
     pixels[i + 1] = color; //green
     pixels[i + 2] = color; //blue
     pixels[i + 3] = 255; //alpha
-    
+
    }
 
     return pixels;
