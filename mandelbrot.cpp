@@ -15,17 +15,6 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, flo
    //for a fullscreen mandelbrot: x -2 to 1, y -1 to 1
    //this is basically the coordinates of the rectangle we are looking at on a graph of the mandelbrot set
    //a click-drag zoom function would map screen coordinates to new graph coordinates representing the rectangle drawn in graph space
-/*
-   float xOutStart = -1;
-   float xOutEnd = -0.6;
-   float yOutStart = 0;
-   float yOutEnd = 0.4;
-
-   float xOutStart = -2;
-   float xOutEnd = 1;
-   float yOutStart = -1;
-   float yOutEnd = 1;
-*/
 
    int MAX_ITERATIONS = 50;
    
@@ -68,22 +57,38 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, flo
         n++;
     }
     
-   
-
     //we now want to colour the pixels depending on how many iterations they took to diverge
     
-    int color;
+    sf::Color color;
+    color.a = 255;
+
     if (n == MAX_ITERATIONS) {
-        color = 0;
-        //color = n * 255 / MAX_ITERATIONS;
+        //color = 0;
+        color.r = n * 255 / MAX_ITERATIONS;
     } else {
-        color = n * 255 / MAX_ITERATIONS;
+        color.r = n * 255 / MAX_ITERATIONS;
+    }
+
+    if (n == MAX_ITERATIONS) {
+        color.r = 50;
+        color.g = 25;
+        color.b = 10;
+    } else if (n < 10) {
+        color.r = 50;
+    } else if (n < 20) {
+        color.r = 100;
+    } else if (n < 30) {
+        color.r = 150;
+    } else if (n < 40) {
+        color.r = 200;
+    } else {
+        color.r = 255;
     }
     
-    pixels[i] = color; //red
-    pixels[i + 1] = color; //green
-    pixels[i + 2] = color; //blue
-    pixels[i + 3] = 255; //alpha
+    pixels[i] = color.r; //red
+    pixels[i + 1] = color.g; //green
+    pixels[i + 2] = color.b; //blue
+    pixels[i + 3] = color.a; //alpha
 
    }
 

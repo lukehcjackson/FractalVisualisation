@@ -45,7 +45,9 @@ int main() {
    //create a lock for the mouse click function
    static bool clickLock = false;
    //and create a lock for when the zoom is changed
-   static bool zoomChanged = true;
+   static bool zoomChanged = false;
+
+   bool firstFrame = true;
 
     //this is the loop - runs once per frame
     while (window.isOpen()) {
@@ -78,11 +80,25 @@ int main() {
 
         //render background
         window.clear(sf::Color::Cyan);
-
         
         if (zoomChanged) {
-            currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
+            //a new rectangle has been drawn on the screen
+            //this is the new zoom window
+            //convert from pixel coordinates to 'graph' coordinates using helper.map() 
+            double newX1 = map(xStart, xEnd, 0, WIDTH, inputX1);
+            double newX2 = map(xStart, xEnd, 0, WIDTH, inputX2);
+            double newY1 = map(yStart, yEnd, 0, HEIGHT, inputY1);
+            double newY2 = map(yStart, yEnd, 0, HEIGHT, inputY2);
+
+            std::cout << "newX1: " << newX1 << " newX2: " << newX2 << " newY1: " << newY1 << " newY2: " << newY2 << std::endl;
+
+            currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
             zoomChanged = false;
+        }
+
+        if (firstFrame) {
+            currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
+            firstFrame = false;
         }
         
         fractalTexture.update(currentPixels);
