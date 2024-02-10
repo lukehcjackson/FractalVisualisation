@@ -5,8 +5,11 @@ int WIDTH = 1600;
 int HEIGHT = 900;
 
 int main() {
+    //create ContextSettings object to control antialiasing
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 4;
     //create the window
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation");
+    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation", sf::Style::Default, settings);
 
     //create the texture we will draw to
     sf::Texture fractalTexture;
@@ -15,6 +18,9 @@ int main() {
         //error
         return -1;
     }
+
+    //draw the texture 'smooth' - with antialiasing
+    fractalTexture.setSmooth(true);
 
     //create the sprite we will draw the texture to
     sf::Sprite fractalSprite(fractalTexture);

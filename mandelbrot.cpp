@@ -91,16 +91,23 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
     
     int color;
     if (n == MAX_ITERATIONS) {
-        color = 255;
-    } else {
         color = 0;
+        //color = n * 255 / MAX_ITERATIONS;
+    } else {
+        color = n * 255 / MAX_ITERATIONS;
     }
     
+    pixels[i] = color; //red
+    pixels[i + 1] = color; //green
+    pixels[i + 2] = color; //blue
+    pixels[i + 3] = 255; //alpha
+
+    /*
     pixels[i] = n * 255 / MAX_ITERATIONS; //red
     pixels[i + 1] = n * 255 / MAX_ITERATIONS; //green
     pixels[i + 2] = n * 255 / MAX_ITERATIONS; //blue
     pixels[i + 3] = 255; //alpha
-    
+    */
    }
 
     return pixels;
