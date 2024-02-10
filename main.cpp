@@ -4,8 +4,6 @@
 int WIDTH = 1600;
 int HEIGHT = 900;
 
-//sf::Uint8* mandelbrot();
-
 int main() {
     //create the window
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation");

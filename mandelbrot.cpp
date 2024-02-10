@@ -9,12 +9,25 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
    
    //the canvas coordinates are from 0-1600, 0-900 but we want to be looking at a scale more like -2 to 2, -2 to 2
    //https://stackoverflow.com/questions/5731863/mapping-a-numeric-range-onto-another
-   //float scaleFactor = 800;
-   float outStart = -2.5;
-   float outEnd = 2.5;
-   double xSlope = 1.0 * (outEnd - outStart) / WIDTH * 0.25;
-   double ySlope = 1.0 * (outEnd - outStart) / HEIGHT * 0.25;
+   
+   //'zooming' means modifying outStart and outEnd
+   //for a fullscreen mandelbrot: x -2 to 1, y -1 to 1
+   //this is basically the coordinates of the rectangle we are looking at on a graph of the mandelbrot set
+   //a click-drag zoom function would map screen coordinates to new graph coordinates representing the rectangle drawn in graph space
+/*
+   float xOutStart = -1;
+   float xOutEnd = -0.6;
+   float yOutStart = 0;
+   float yOutEnd = 0.4;
+*/
+   float xOutStart = -2;
+   float xOutEnd = 1;
+   float yOutStart = -1;
+   float yOutEnd = 1;
+   double xSlope = 1.0 * (xOutEnd - xOutStart) / WIDTH * 0.25;
+   double ySlope = 1.0 * (yOutEnd - yOutStart) / HEIGHT * 0.25;
 
+   
 
    int MAX_ITERATIONS = 50;
    
@@ -39,8 +52,8 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
     
     */
 
-    double newX = outStart + xSlope * x;
-    double newY = outStart + ySlope * y;
+    double newX = xOutStart + xSlope * x;
+    double newY = yOutStart + ySlope * y;
     x = newX;
     y = newY;
     
