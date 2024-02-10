@@ -1,0 +1,1 @@
+double map(double outStart, double outEnd, double inStart, double inEnd, double point);

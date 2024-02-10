@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "mandelbrot.h"
+#include "helper.h"
+
 sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
 
     /*
@@ -24,10 +25,6 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
    float xOutEnd = 1;
    float yOutStart = -1;
    float yOutEnd = 1;
-   double xSlope = 1.0 * (xOutEnd - xOutStart) / WIDTH * 0.25;
-   double ySlope = 1.0 * (yOutEnd - yOutStart) / HEIGHT * 0.25;
-
-   
 
    int MAX_ITERATIONS = 50;
    
@@ -39,23 +36,8 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
     double x = (i)% (WIDTH*4);
     double y = (i * 1) / WIDTH;
 
-    //want to 'map' x,y from 0->width, 0->height to -2->2, -2->2
-    //this is not exactly precisely right and should be moved out into another function
-
-    /*
-    NOTES FOR FIXING SCALING:
-    leaving out the *0.25 in the slope calculations gives you 4 mandelbrots along the top
-    doing ySlope * 0.25 stretches them out so the sets fill the height of the screen
-    doing xSlope * 0.25 stretches them out so they WOULD fit the screen, but it cuts off and tiles 4 times
-    this is fixed by doing i % (WIDTH * 4) -> want to get my head around this more, is there a nicer way to write this / do this correction?
-    ALSO WANT TO ROUND THE MAPPING FUNCTION SO IT'S MORE ACCURATE -> SEE STACKOVERFLOW POST
-    
-    */
-
-    double newX = xOutStart + xSlope * x;
-    double newY = yOutStart + ySlope * y;
-    x = newX;
-    y = newY;
+    x = map(xOutStart, xOutEnd, 0, WIDTH, x);
+    y = map(yOutStart, yOutEnd, 0, HEIGHT, y);
     
     double cx = x;
     double cy = y;
@@ -101,13 +83,7 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, sf::Uint8* pixels) {
     pixels[i + 1] = color; //green
     pixels[i + 2] = color; //blue
     pixels[i + 3] = 255; //alpha
-
-    /*
-    pixels[i] = n * 255 / MAX_ITERATIONS; //red
-    pixels[i + 1] = n * 255 / MAX_ITERATIONS; //green
-    pixels[i + 2] = n * 255 / MAX_ITERATIONS; //blue
-    pixels[i + 3] = 255; //alpha
-    */
+    
    }
 
     return pixels;

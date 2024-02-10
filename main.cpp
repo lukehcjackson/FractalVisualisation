@@ -1,8 +1,9 @@
 #include <SFML/Graphics.hpp>
+#include "helper.h"
 #include "mandelbrot.h"
 
-int WIDTH = 1600;
-int HEIGHT = 900;
+extern int WIDTH;
+extern int HEIGHT;
 
 int main() {
     //create ContextSettings object to control antialiasing
@@ -27,10 +28,6 @@ int main() {
 
     //create the main pixel array
     sf::Uint8* currentPixels = new sf::Uint8[WIDTH * HEIGHT * 4]; //4 bytes per pixel (RGBA)
-    //we can swap between these two pixel arrays and use them like a buffer, rather than creating a new pixel array each frame
-    sf::Uint8* newPixels = new sf::Uint8[WIDTH * HEIGHT * 4];
-
-    long long frameCount = 0;
 
 
     //this is the loop - runs once per frame
@@ -43,29 +40,13 @@ int main() {
         //render background
         window.clear(sf::Color::Cyan);
 
-        //TEST!!! update pixel array
-        /*
-        for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
-            newPixels[i] = frameCount % 255; //red
-            newPixels[i + 1] = (frameCount + i + 500) % 255; //green
-            newPixels[i + 2] = (i * 100 + 150) % 255; //blue
-            newPixels[i + 3] = 255; //alpha
-        }
-
-        currentPixels = newPixels;
-        */
-
         currentPixels = mandelbrot(WIDTH, HEIGHT, currentPixels);
-        //TODO : do i even need newPixels ??
-
         fractalTexture.update(currentPixels);
 
         //draw the sprite
         window.draw(fractalSprite);
         //render all calls to draw()
         window.display();
-
-        frameCount++;
 
     }
 
