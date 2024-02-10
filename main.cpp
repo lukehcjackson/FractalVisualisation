@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "helper.h"
 #include "mandelbrot.h"
 
@@ -35,6 +36,12 @@ int main() {
    float yStart = 0;
    float yEnd = 0.4;
 
+   //these variables define the rectangle drawn on screen with the mouse
+   float inputX1;
+   float inputY1;
+   float inputX2;
+   float inputY2;
+
    //create a lock for the mouse click function
    static bool clickLock = false;
    //and create a lock for when the zoom is changed
@@ -47,39 +54,43 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
-            /*
+            
             if (event.type == sf::Event::MouseButtonPressed && !clickLock) {
                 //mouse button clicked
-
+                inputX1 = event.mouseButton.x;
+                inputY1 = event.mouseButton.y;
                 //lock this function so it can't be called again until the mouse button is released
                 clickLock = true;
             }
             if (event.type == sf::Event::MouseButtonReleased) {
                 //mouse button released
+                inputX2 = event.mouseButton.x;
+                inputY2 = event.mouseButton.y;
+
+                std::cout << "inputX1: " << inputX1 << " inputY1: " << inputY1 << " inputX2: " << inputX2 << " inputY2: " << inputY2 << std::endl;
 
                 //unlock the mouse click function and the zoom function
                 clickLock = false;
                 zoomChanged = true;
             }
-            */
+            
         }
 
         //render background
         window.clear(sf::Color::Cyan);
 
+        
         if (zoomChanged) {
-
             currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
-
-            fractalTexture.update(currentPixels);
-
-            //draw the sprite
-            window.draw(fractalSprite);
-            //render all calls to draw()
-            window.display();
-
             zoomChanged = false;
         }
+        
+        fractalTexture.update(currentPixels);
+
+        //draw the sprite
+        window.draw(fractalSprite);
+        //render all calls to draw()
+        window.display();
 
         
 
