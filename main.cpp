@@ -30,7 +30,13 @@ int main() {
     //create the main pixel array
     sf::Uint8* currentPixels = new sf::Uint8[WIDTH * HEIGHT * 4]; //4 bytes per pixel (RGBA)
 
-   //these variables define the rectangular window we are looking at on the graph of the mandelbrot set
+   //these variables define our 'canvas', the whole window we are rendering
+   float xCanvasStart = 0;
+   float xCanvasEnd = WIDTH;
+   float yCanvasStart = 0;
+   float yCanvasEnd = HEIGHT;
+
+   //these variables define the rectangular window we are zooming in on, on the graph of the mandelbrot set
    float xStart = -1;
    float xEnd = -0.6;
    float yStart = 0;
@@ -81,14 +87,20 @@ int main() {
         //render background
         window.clear(sf::Color::Cyan);
         
+        /*
         if (zoomChanged) {
             //a new rectangle has been drawn on the screen
             //this is the new zoom window
             //convert from pixel coordinates to 'graph' coordinates using helper.map() 
-            double newX1 = map(xStart, xEnd, 0, WIDTH, inputX1);
-            double newX2 = map(xStart, xEnd, 0, WIDTH, inputX2);
-            double newY1 = map(yStart, yEnd, 0, HEIGHT, inputY1);
-            double newY2 = map(yStart, yEnd, 0, HEIGHT, inputY2);
+            double newX1 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX1);
+            double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
+            double newY1 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY1);
+            double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
+
+            xCanvasStart = newX1;
+            xCanvasEnd = newX2;
+            yCanvasStart = newY1;
+            yCanvasEnd = newY2;
 
             std::cout << "newX1: " << newX1 << " newX2: " << newX2 << " newY1: " << newY1 << " newY2: " << newY2 << std::endl;
 
@@ -100,6 +112,42 @@ int main() {
             currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
             firstFrame = false;
         }
+        */
+
+        if (firstFrame) {
+            currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
+            firstFrame = false;
+        }
+
+       //if zoom changed:
+       //   perform a 'zoom':
+       //   we have the input values of x and y - these need to be converted into graph coordinates
+       //   do this by mapping to x/y start/end from pixel values 0->WIDTH / HEIGHT
+       //   this gives us graph coordinates of the new zoom window
+       //   we perform the zoom by making our 'canvas' these newly calculated coordinates, passing them to the mandebrot function as arguments 3-6
+
+       if (zoomChanged && !firstFrame) {
+
+        //convert input x,y coordinates to graph coordinates
+        //we need to map from pixel values (0->WIDTH/HEIGHT) to graph coordinates (xStart->xEnd, yStart->yEnd)
+        double newX1 = map(xStart, xEnd, 0, WIDTH, inputX1);
+        double newX2 = map(xStart, xEnd, 0, WIDTH, inputX2);
+        double newY1 = map(yStart, yEnd, 0, HEIGHT, inputY1);
+        double newY2 = map(yStart, yEnd, 0, HEIGHT, inputY2);
+        std::cout << "newX1: " << newX1 << " newX2: " << newX2 << " newY1: " << newY1 << " newY2: " << newY2 << std::endl;
+        //this gives us graph coordinates of the new zoom window
+        //perform the 'zoom' by making our 'canvas' these newly calculated coordinates, passing them to the mandelbrot function as arguments 3-6
+        currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
+        //now replace xStart, xEnd, yStart, yEnd with these new values
+        xStart = newX1;
+        xEnd = newX2;
+        yStart = newY1;
+        yEnd = newY2;
+        std::cout << "xStart: " << xStart << " xEnd: " << xEnd << " yStart: " << yStart << " yEnd: " << yEnd << std::endl;
+
+        zoomChanged = false;
+       }
+
         
         fractalTexture.update(currentPixels);
 

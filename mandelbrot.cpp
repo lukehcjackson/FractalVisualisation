@@ -26,6 +26,7 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, flo
     double x = (i)% (WIDTH*4);
     double y = (i * 1) / WIDTH;
 
+    //map graph coordinates back into pixels to render
     x = map(xOutStart, xOutEnd, 0, WIDTH, x);
     y = map(yOutStart, yOutEnd, 0, HEIGHT, y);
     
