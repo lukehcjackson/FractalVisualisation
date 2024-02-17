@@ -9,7 +9,7 @@ extern int HEIGHT;
 int main() {
     //create ContextSettings object to control antialiasing
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 0;
+    settings.antialiasingLevel = 4;
     //create the window
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation", sf::Style::Default, settings);
 
@@ -37,10 +37,12 @@ int main() {
    float yCanvasEnd = HEIGHT;
 
    //these variables define the rectangular window we are zooming in on, on the graph of the mandelbrot set
-   long double xStart = -1;
-   long double xEnd = -0.6;
-   long double yStart = 0;
-   long double yEnd = 0.4;
+   //nice values:
+   //-1, -0,6, 0, 0,4
+   long double xStart = -2;
+   long double xEnd = 1;
+   long double yStart = -1;
+   long double yEnd = 1;
 
    //these variables define the rectangle drawn on screen with the mouse
    int inputX1;
@@ -53,7 +55,12 @@ int main() {
    //and create a lock for when the zoom is changed
    static bool zoomChanged = false;
 
-   bool firstFrame = true;
+   static bool firstFrame = true;
+
+   static bool automaticZooming = true;
+   int frameCount = 0;
+   int frameLimit = 10;
+   int zoomPixels = 50;
 
     //this is the loop - runs once per frame
     while (window.isOpen()) {
@@ -75,7 +82,7 @@ int main() {
                 inputX2 = event.mouseButton.x;
                 inputY2 = event.mouseButton.y;
 
-                std::cout << "inputX1: " << inputX1 << " inputY1: " << inputY1 << " inputX2: " << inputX2 << " inputY2: " << inputY2 << std::endl;
+                //std::cout << "inputX1: " << inputX1 << " inputY1: " << inputY1 << " inputX2: " << inputX2 << " inputY2: " << inputY2 << std::endl;
 
                 //unlock the mouse click function and the zoom function
                 clickLock = false;
@@ -97,8 +104,8 @@ int main() {
 
         //this looks terrible very quickly if we don't force the aspect ratio to stay the same
         //base the new rectangle on x1,y1 and x2,y1 (only the position of the first click and the x-length of the line drawn matters)
-        double xDiff = inputX2 - inputX1;
-        double height = ((1.0 * HEIGHT) / (1.0 * WIDTH)) * xDiff;
+        long double xDiff = inputX2 - inputX1;
+        long double height = ((1.0 * HEIGHT) / (1.0 * WIDTH)) * xDiff;
         inputY2 = inputY1 + height;
 
         long double newX1 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX1);
@@ -106,7 +113,7 @@ int main() {
         long double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
         long double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
 
-        std::cout << "newX1: " << newX1 << " newY1: " << newY1 << " newX2: " << newX2 << " newY2: " << newY2 << std::endl;
+        //std::cout << "newX1: " << newX1 << " newY1: " << newY1 << " newX2: " << newX2 << " newY2: " << newY2 << std::endl;
 
         
 
@@ -128,6 +135,64 @@ int main() {
         //render all calls to draw()
         window.display();
 
+<<<<<<< Updated upstream
+=======
+        //automatic slow zooming:
+        //input x1,y1 very close to 0
+        //input x2 very close to 1600 (y2 is ignored to maintain aspect ratio)
+        //consider 'center point' of the rectangle, can change? center around mouse pos?
+        //set zoomChanged to true - once per frame? (very fast) once per x frames to control speed?
+        if (automaticZooming) {
+            if (frameCount++ == frameLimit) {
+
+                //get position of the mouse
+                int mouseX = sf::Mouse::getPosition(window).x;
+                int mouseY = sf::Mouse::getPosition(window).y;
+
+                //mouse position isn't constrained to the window size, so do that!
+                if (mouseX < 0) {
+                    mouseX = 0;
+                }
+                if (mouseX > WIDTH) {
+                    mouseX = WIDTH;
+                }
+                if (mouseY < 0) {
+                    mouseY = 0;
+                }
+                if (mouseY > HEIGHT) {
+                    mouseY = HEIGHT;
+                }
+
+                //position the new frame around the mouse
+                //consider which quarter of the screen the mouse is in
+                if (mouseX < WIDTH / 2) {
+                    //left half of the screen
+                    //take off pixels on the right
+                    inputX1 = 0;
+                    inputX2 = WIDTH - zoomPixels;
+                } else {
+                    //take off pixels on the left
+                    inputX1 = zoomPixels;
+                    inputX2 = WIDTH;
+                }
+
+                if (mouseY < HEIGHT / 2) {
+                    //top half of the screen
+                    //take off pixels on the bottom
+                    inputY1 = 0;
+                    inputY2 = HEIGHT - zoomPixels;
+                } else {
+                    //take off pixels on the top
+                    inputY1 = zoomPixels;
+                    inputY2 = HEIGHT;
+                }
+
+                zoomChanged = true;
+                frameCount = 0;
+            }
+        }
+
+>>>>>>> Stashed changes
     }
 
     return 0;
