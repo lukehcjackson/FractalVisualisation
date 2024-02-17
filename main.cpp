@@ -113,16 +113,11 @@ int main() {
         long double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
         long double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
 
-        //std::cout << "newX1: " << newX1 << " newY1: " << newY1 << " newX2: " << newX2 << " newY2: " << newY2 << std::endl;
-
-        
-
         currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
         xStart = newX1;
         xEnd = newX2;
         yStart = newY1;
         yEnd = newY2;
-
    
         zoomChanged = false;
        }
@@ -135,13 +130,11 @@ int main() {
         //render all calls to draw()
         window.display();
 
-<<<<<<< Updated upstream
-=======
         //automatic slow zooming:
         //input x1,y1 very close to 0
         //input x2 very close to 1600 (y2 is ignored to maintain aspect ratio)
         //consider 'center point' of the rectangle, can change? center around mouse pos?
-        //set zoomChanged to true - once per frame? (very fast) once per x frames to control speed?
+        //set zoomChanged to true - once per x frames to control speed
         if (automaticZooming) {
             if (frameCount++ == frameLimit) {
 
@@ -150,18 +143,14 @@ int main() {
                 int mouseY = sf::Mouse::getPosition(window).y;
 
                 //mouse position isn't constrained to the window size, so do that!
-                if (mouseX < 0) {
+                if (mouseX < 0)
                     mouseX = 0;
-                }
-                if (mouseX > WIDTH) {
+                if (mouseX > WIDTH)
                     mouseX = WIDTH;
-                }
-                if (mouseY < 0) {
+                if (mouseY < 0)
                     mouseY = 0;
-                }
-                if (mouseY > HEIGHT) {
+                if (mouseY > HEIGHT)
                     mouseY = HEIGHT;
-                }
 
                 //position the new frame around the mouse
                 //consider which quarter of the screen the mouse is in
@@ -192,7 +181,6 @@ int main() {
             }
         }
 
->>>>>>> Stashed changes
     }
 
     return 0;
