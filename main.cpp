@@ -95,12 +95,20 @@ int main() {
 
        if (zoomChanged && !firstFrame) {
 
+        //this looks terrible very quickly if we don't force the aspect ratio to stay the same
+        //base the new rectangle on x1,y1 and x2,y1 (only the position of the first click and the x-length of the line drawn matters)
+        double xDiff = inputX2 - inputX1;
+        double height = ((1.0 * HEIGHT) / (1.0 * WIDTH)) * xDiff;
+        inputY2 = inputY1 + height;
+
         long double newX1 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX1);
         long double newY1 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY1);
         long double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
         long double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
 
         std::cout << "newX1: " << newX1 << " newY1: " << newY1 << " newX2: " << newX2 << " newY2: " << newY2 << std::endl;
+
+        
 
         currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
         xStart = newX1;
