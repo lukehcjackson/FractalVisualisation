@@ -16,7 +16,10 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double 
    //this is basically the coordinates of the rectangle we are looking at on a graph of the mandelbrot set
    //a click-drag zoom function would map screen coordinates to new graph coordinates representing the rectangle drawn in graph space
 
-   int MAX_ITERATIONS = 50;
+   //MAX_ITERATIONS controls the level of detail of the whole image
+   //50 is my working value
+   //1000 looks amazing but takes a long time to render a frame - implement multithreading!
+   int MAX_ITERATIONS = 1000;
    
    for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
     //each i is a pixel on the screen

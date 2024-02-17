@@ -57,7 +57,7 @@ int main() {
 
    static bool firstFrame = true;
 
-   static bool automaticZooming = true;
+   static bool automaticZooming = false;
    int frameCount = 0;
    int frameLimit = 10;
    int zoomPixels = 50;
