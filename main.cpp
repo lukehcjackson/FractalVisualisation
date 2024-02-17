@@ -86,7 +86,7 @@ int main() {
 
         //render background
         window.clear(sf::Color::Cyan);
-
+      
         if (firstFrame) {
             currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
             std::cout << "xStart: " << xStart << " xEnd: " << xEnd << " yStart: " << yStart << " yEnd: " << yEnd << std::endl;
@@ -127,13 +127,6 @@ int main() {
         window.draw(fractalSprite);
         //render all calls to draw()
         window.display();
-
-        
-
-        //xOutStart -= 0.01;
-        //xOutEnd -= 0.01;
-        //yOutStart -= 0.01;
-        //yOutEnd -= 0.01;
 
     }
 
