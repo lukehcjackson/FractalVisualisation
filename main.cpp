@@ -9,7 +9,7 @@ extern int HEIGHT;
 int main() {
     //create ContextSettings object to control antialiasing
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 4;
+    settings.antialiasingLevel = 0;
     //create the window
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation", sf::Style::Default, settings);
 
@@ -37,16 +37,16 @@ int main() {
    float yCanvasEnd = HEIGHT;
 
    //these variables define the rectangular window we are zooming in on, on the graph of the mandelbrot set
-   float xStart = -1;
-   float xEnd = -0.6;
-   float yStart = 0;
-   float yEnd = 0.4;
+   long double xStart = -1;
+   long double xEnd = -0.6;
+   long double yStart = 0;
+   long double yEnd = 0.4;
 
    //these variables define the rectangle drawn on screen with the mouse
-   float inputX1;
-   float inputY1;
-   float inputX2;
-   float inputY2;
+   int inputX1;
+   int inputY1;
+   int inputX2;
+   int inputY2;
 
    //create a lock for the mouse click function
    static bool clickLock = false;
@@ -95,10 +95,10 @@ int main() {
 
        if (zoomChanged && !firstFrame) {
 
-        float newX1 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX1);
-        float newY1 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY1);
-        float newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
-        float newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
+        long double newX1 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX1);
+        long double newY1 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY1);
+        long double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
+        long double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
 
         std::cout << "newX1: " << newX1 << " newY1: " << newY1 << " newX2: " << newX2 << " newY2: " << newY2 << std::endl;
 

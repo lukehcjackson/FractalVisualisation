@@ -23,15 +23,15 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, flo
 
     //need an x,y coordinate
     //i%WIDTH gives 4 copies, (i*4)%WIDTH gives 16 copies
-    double x = (i)% (WIDTH*4);
-    double y = (i * 1) / WIDTH;
+    long double x = (i)% (WIDTH*4);
+    long double y = (i * 1) / WIDTH;
 
     //map graph coordinates back into pixels to render
     x = plot_map(xOutStart, xOutEnd, 0, WIDTH, x);
     y = plot_map(yOutStart, yOutEnd, 0, HEIGHT, y);
     
-    double cx = x;
-    double cy = y;
+    long double cx = x;
+    long double cy = y;
 
     int n = 0;
     
@@ -42,8 +42,8 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, flo
         //so we can represent the real and imaginary parts of the result without needing to use any complex number libraries
 
         //Z^2
-        double re = x * x - y * y;
-        double im = 2 * x * y;
+        long double re = x * x - y * y;
+        long double im = 2 * x * y;
         //+C
         x = re + cx;
         y = im + cy;
@@ -90,6 +90,12 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, float xOutStart, float xOutEnd, flo
     pixels[i + 1] = color.g; //green
     pixels[i + 2] = color.b; //blue
     pixels[i + 3] = color.a; //alpha
+
+    //display the mandelbrot set in greyscale
+    pixels[i] = n * 255 / MAX_ITERATIONS; //red
+    pixels[i + 1] = n * 255 / MAX_ITERATIONS; //green
+    pixels[i + 2] = n * 255 / MAX_ITERATIONS; //blue
+    pixels[i + 3] = 255; //alpha
 
    }
 
