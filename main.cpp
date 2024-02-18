@@ -59,8 +59,8 @@ int main() {
 
    static bool automaticZooming = false;
    int frameCount = 0;
-   int frameLimit = 10;
-   int zoomPixels = 50;
+   int frameLimit = 1;
+   int zoomPixels = 10;
 
     //this is the loop - runs once per frame
     while (window.isOpen()) {
@@ -96,7 +96,7 @@ int main() {
       
         if (firstFrame) {
             currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
-            std::cout << "xStart: " << xStart << " xEnd: " << xEnd << " yStart: " << yStart << " yEnd: " << yEnd << std::endl;
+            //std::cout << "xStart: " << xStart << " xEnd: " << xEnd << " yStart: " << yStart << " yEnd: " << yEnd << std::endl;
             firstFrame = false;
         }
 
@@ -195,7 +195,7 @@ g++ main.o -o main -L"C:\\msys64\\ucrt64\\lib" -lsfml-graphics -lsfml-window -ls
 ./main
 
 WITH MULTIPLE FILES
-g++ *.cpp -I"C:\\msys64\\ucrt64\\include\\SFML" -o main -L"C:\\msys64\\ucrt64\\lib" -lsfml-graphics -lsfml-window -lsfml-system
+g++ -fopenmp *.cpp -I"C:\\msys64\\ucrt64\\include\\SFML" -o main -L"C:\\msys64\\ucrt64\\lib" -lsfml-graphics -lsfml-window -lsfml-system
 ./main   
 
 */

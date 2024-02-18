@@ -1,6 +1,5 @@
 int WIDTH = 1600;
 int HEIGHT = 900;
-
 /*
     NOTES FOR FIXING SCALING:
     leaving out the *0.25 in the slope calculations gives you 4 mandelbrots along the top
@@ -20,12 +19,3 @@ long double map(long double outStart, long double outEnd, long double inStart, l
     long double slope = 1.0 * (outEnd - outStart) / (inEnd - inStart);   
     return outStart + slope * (point - inStart);
 }
-
-/*
-color generation:
-decide on n distinct colours
-https://angrytools.com/gradient/
-use website to create gradient of that many colours
-sample rgb values from the created code
-huge if else/ switch statement to assign colour values based on colour factor for each fractal
-*/
