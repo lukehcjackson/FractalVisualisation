@@ -22,7 +22,10 @@ long double map(long double outStart, long double outEnd, long double inStart, l
 }
 
 /*
-int* genColor(int n) {
-    int* color = new int[3];
-}
+color generation:
+decide on n distinct colours
+https://angrytools.com/gradient/
+use website to create gradient of that many colours
+sample rgb values from the created code
+huge if else/ switch statement to assign colour values based on colour factor for each fractal
 */

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "helper.h"
+#include "omp.h"
 
 sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double xOutEnd, long double yOutStart, long double yOutEnd, sf::Uint8* pixels) {
 
@@ -21,6 +22,8 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double 
    //1000 looks amazing but takes a long time to render a frame - implement multithreading!
    int MAX_ITERATIONS = 1000;
    
+   omp_set_num_threads(12);
+   #pragma omp parallel for
    for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
     //each i is a pixel on the screen
 
