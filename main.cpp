@@ -9,7 +9,7 @@ extern int HEIGHT;
 int main() {
     //create ContextSettings object to control antialiasing
     sf::ContextSettings settings;
-    settings.antialiasingLevel = 4;
+    settings.antialiasingLevel = 8;
     //create the window
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Fractal Visualisation", sf::Style::Default, settings);
 
