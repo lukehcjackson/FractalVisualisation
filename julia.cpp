@@ -10,7 +10,7 @@ long double c_re = -0.77146;
 long double c_im = -0.10119;
 // R > 0 such that R**2 - R >= sqrt(c_re **2 + c_im **2)
 const double escapeRadius = 2;
-const int MAX_ITERATIONS = 50;
+const int MAX_ITERATIONS = 500;
 
 extern sf::Color colorPalette[40];
 
@@ -74,9 +74,9 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
 
     }
 
-    //printIterationCounts();
+    
     HistogramColouring();
-    //#pragma omp parallel for
+    #pragma omp parallel for
     for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4)
     {
         int xCoord = (i % (WIDTH * 4)) / 4;
@@ -88,6 +88,8 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
         pixels[i + 2] = pixelColor.b;
         pixels[i + 3] = pixelColor.a;
     }
+    resetHistogramColouring();
+    
 
     return pixels;
 }

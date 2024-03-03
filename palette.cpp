@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include "helper.h"
 
 #include <iostream>
 
@@ -174,6 +175,8 @@ sf::Color calculatePixelColor_senikoThreeColours(int iterations, int maxIteratio
 //These algorithms are from https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set
 
 //Histogram Colouring Algorithm
+extern int WIDTH;
+extern int HEIGHT;
 
 //these are magic numbers but C++ doesnt allow variable sized arrays
 //replace with [WIDTH][HEIGHT] if they ever change!
@@ -184,8 +187,8 @@ void calculateIterationCounts(int iterations, int x, int y) {
 }
 
 void printIterationCounts() {
-    for (int i = 0; i < 1600; i++) {
-        for (int j = 0; j < 900; j++) {
+    for (int i = 0; i < WIDTH; i++) {
+        for (int j = 0; j < HEIGHT; j++) {
             std::cout << IterationCounts[i][j] << " ";
         }
         std::cout << std::endl;
@@ -194,20 +197,21 @@ void printIterationCounts() {
 
 float hue[1600][900];
 void HistogramColouring() {
-    int NumIterationsPerPixel[50];
-    for (int i = 0; i < 1600; i++) {
-        for (int j = 0; j < 900; j++) {
+    //LENGTH: MAX_ITERATIONS
+    int NumIterationsPerPixel[500];
+    for (int i = 0; i < WIDTH; i++) {
+        for (int j = 0; j < HEIGHT; j++) {
             NumIterationsPerPixel[IterationCounts[i][j]]++;
         }
     }
 
-    long total = 0;
-    for (int i = 0; i < 50; i++) {
+    long long total = 0;
+    for (int i = 0; i < sizeof(NumIterationsPerPixel) / sizeof(int); i++) {
         total += NumIterationsPerPixel[i];
     }
 
-    for (int i = 0; i < 1600; i++) {
-        for (int j = 0; j < 900; j++) {
+    for (int i = 0; i < WIDTH; i++) {
+        for (int j = 0; j < HEIGHT; j++) {
             int thisIteration = IterationCounts[i][j];
             for (int k = 0; k <= thisIteration; k++) {
                 hue[i][j] += (NumIterationsPerPixel[k] * 1.0f) / (total * 1.0f);
@@ -217,6 +221,16 @@ void HistogramColouring() {
 }
 
 sf::Color getHistogramColour(int x, int y) {
-    //std::cout << "hue: " << hue[x][y] << std::endl;
-    return colorPalette[static_cast<int>(hue[x][y])];
+    //std::cout << " " << static_cast<int>(hue[x][y]) << " : " << hue[x][y];
+    return colorPalette[static_cast<int>(hue[x][y] * 40)];
+}
+
+void resetHistogramColouring() {
+    //reset IterationCounts and hue so we can do this again
+    for (int i = 0; i < WIDTH; i++) {
+        for (int j = 0; j < HEIGHT; j++) {
+            IterationCounts[i][j] = 0;
+            hue[i][j] = 0;
+        }
+    }
 }

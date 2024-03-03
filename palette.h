@@ -8,3 +8,4 @@ void calculateIterationCounts(int iterations, int x, int y);
 void printIterationCounts();
 void HistogramColouring();
 sf::Color getHistogramColour(int x, int y);
+void resetHistogramColouring();
