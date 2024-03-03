@@ -39,8 +39,12 @@ int main() {
    //these variables define the rectangular window we are zooming in on, on the graph of the mandelbrot set
    //nice values:
    //-1, -0,6, 0, 0,4
-   long double xStart = -2;
-   long double xEnd = 1;
+   //-2, 1, -1, 1
+   //IMPORTANT: make sure the lengths of the rectangle here are in a 16:9 ratio
+   //-1, 1, -0.84375, 0.84375
+   //-3.55.., 1.77.., -1.5, 1.5
+   long double xStart = -2.370370370370;
+   long double xEnd = 1.185185185185;
    long double yStart = -1;
    long double yEnd = 1;
 
@@ -195,6 +199,7 @@ g++ main.o -o main -L"C:\\msys64\\ucrt64\\lib" -lsfml-graphics -lsfml-window -ls
 ./main
 
 WITH MULTIPLE FILES
+only include -fopenmp if you are using openmp
 g++ -fopenmp *.cpp -I"C:\\msys64\\ucrt64\\include\\SFML" -o main -L"C:\\msys64\\ucrt64\\lib" -lsfml-graphics -lsfml-window -lsfml-system
 ./main   
 
