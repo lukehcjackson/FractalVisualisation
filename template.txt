@@ -1,0 +1,54 @@
+#include <SFML/Graphics.hpp>
+#include "helper.h"
+#include "palette.h"
+#include "omp.h"
+
+//Define your constants here
+//This is an example from the julia set
+const long double c_re = -0.4;
+const long double c_im = 0.6;
+const int MAX_ITERATIONS = 50;
+
+//Define colour palette - to customise, change colorPalette variable in palette.cpp
+extern sf::Color colorPalette[LENGTH OF COLOUR PALETTE];
+
+//Main function - rename to the name of your fractal
+sf::Uint8* FRACTAL(int WIDTH, int HEIGHT, long double xOutStart, long double xOutEnd, long double yOutStart, long double yOutEnd, sf::Uint8* pixels) {
+    
+        //Define number of threads
+        //Be sure to include omp.h and use -fopenmp compilation argument
+        omp_set_num_threads(10);
+
+        //For every pixel on the screen
+        #pragma omp parallel for
+        for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
+            //Calculate x,y coordinates of the current point
+            long double x = i % (WIDTH * 4);
+            long double y = (i * 1.0) / WIDTH;
+    
+            //Map that x,y coordinate back into a pixel coordinate
+            x = plot_map(xOutStart, xOutEnd, 0, WIDTH, x);
+            y = plot_map(yOutStart, yOutEnd, 0, HEIGHT, y);
+    
+            //FRACTAL LOGIC GOES HERE!!
+            // ...
+            // ...
+            // ...
+    
+            //Colour the pixel
+            //Here, using the iterative function that colours based on n (number of iterations) against MAX_ITERATIONS
+            int colorStepSize = MAX_ITERATIONS / (sizeof(colorPalette) / sizeof(colorPalette[0]));
+            sf::Color pixelColor = calculatePixelColor_iterative(n, MAX_ITERATIONS, colorStepSize);
+            
+            //Assign pixel colours
+            pixels[i] = pixelColor.r;
+            pixels[i + 1] = pixelColor.g;
+            pixels[i + 2] = pixelColor.b;
+            pixels[i + 3] = pixelColor.a;
+        }
+        return pixels;
+}
+
+To use: create fractal.h file and include main method signature
+        include fractal.h in main.cpp
+        replace all calls to current fractal function with YOUR new fractal function

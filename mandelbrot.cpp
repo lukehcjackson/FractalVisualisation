@@ -11,7 +11,7 @@
 const int MAX_ITERATIONS = 1000;
 
 extern sf::Color colorPalette[12];
-int colorStepSize = MAX_ITERATIONS / (sizeof(colorPalette) / sizeof(colorPalette[0]));
+
 
 sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double xOutEnd, long double yOutStart, long double yOutEnd, sf::Uint8* pixels) {
 
@@ -29,8 +29,8 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double 
 
     //need an x,y coordinate
     //i%WIDTH gives 4 copies, (i*4)%WIDTH gives 16 copies
-    long double x = (i)% (WIDTH*4);
-    long double y = (i * 1) / WIDTH;
+    long double x = (i) % (WIDTH*4);
+    long double y = (i * 1.0) / WIDTH;
 
     //map graph coordinates back into pixels to render
     x = plot_map(xOutStart, xOutEnd, 0, WIDTH, x);
@@ -65,6 +65,7 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double 
     }
     
     //we now want to colour the pixels depending on how many iterations they took to diverge
+    int colorStepSize = MAX_ITERATIONS / (sizeof(colorPalette) / sizeof(colorPalette[0]));
     sf::Color pixelColor = calculatePixelColor_iterative(n, MAX_ITERATIONS, colorStepSize);
 
     //GREYSCALE MODE
