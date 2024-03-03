@@ -197,32 +197,41 @@ void printIterationCounts() {
 
 float hue[1600][900];
 void HistogramColouring() {
-    //LENGTH: MAX_ITERATIONS
-    int NumIterationsPerPixel[500];
+    //LENGTH: MAX_ITERATIONS + 1 (0 to MAX_ITERATIONS inclusive)
+    long double NumIterationsPerPixel[51];
+    for (int i = 0; i <= 50; i++) {
+        NumIterationsPerPixel[i] = 0;
+    }
+
     for (int i = 0; i < WIDTH; i++) {
         for (int j = 0; j < HEIGHT; j++) {
-            NumIterationsPerPixel[IterationCounts[i][j]]++;
+            int index = IterationCounts[i][j];
+            NumIterationsPerPixel[index]++;
+            //std::cout << index << " : " << NumIterationsPerPixel[index] << " ";
         }
     }
 
-    long long total = 0;
-    for (int i = 0; i < sizeof(NumIterationsPerPixel) / sizeof(int); i++) {
+    long total = 0;
+    for (int i = 0; i <= 50; i++) {
         total += NumIterationsPerPixel[i];
     }
+
+    //std::cout << total << std::endl;
 
     for (int i = 0; i < WIDTH; i++) {
         for (int j = 0; j < HEIGHT; j++) {
             int thisIteration = IterationCounts[i][j];
             for (int k = 0; k <= thisIteration; k++) {
                 hue[i][j] += (NumIterationsPerPixel[k] * 1.0f) / (total * 1.0f);
+                //hue[i][j] += NumIterationsPerPixel[k];
             }
         }
     }
 }
 
 sf::Color getHistogramColour(int x, int y) {
-    //std::cout << " " << static_cast<int>(hue[x][y]) << " : " << hue[x][y];
-    return colorPalette[static_cast<int>(hue[x][y] * 40)];
+    //std::cout << " " << static_cast<int>(hue[x][y] * 40) << " ";
+    return colorPalette[static_cast<int>(hue[x][y] * (sizeof(colorPalette) / sizeof(colorPalette[0]) - 1))];
 }
 
 void resetHistogramColouring() {

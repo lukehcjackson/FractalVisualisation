@@ -10,7 +10,7 @@ long double c_re = -0.77146;
 long double c_im = -0.10119;
 // R > 0 such that R**2 - R >= sqrt(c_re **2 + c_im **2)
 const double escapeRadius = 2;
-const int MAX_ITERATIONS = 500;
+const int MAX_ITERATIONS = 50;
 
 extern sf::Color colorPalette[40];
 
@@ -24,8 +24,8 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
     just comment out the two lines below to use a fixed value of c
     */
    
-    //c_re = 0.7885 * cos(a);
-    //c_im = 0.7885 * sin(a);
+    c_re = 0.7885 * cos(a);
+    c_im = 0.7885 * sin(a);
     
     omp_set_num_threads(10);
     #pragma omp parallel for
@@ -74,7 +74,7 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
 
     }
 
-    
+    //printIterationCounts();
     HistogramColouring();
     #pragma omp parallel for
     for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4)
