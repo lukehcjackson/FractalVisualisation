@@ -97,6 +97,11 @@ int main()
     int frameLimit = 1;
     int zoomPixels = 10;
 
+    //JULIA SET ANIMATION VARIABLE
+    static bool juliaAnimation = true;
+    long double a = 0;
+    double speed = 0.001;
+
     ///////////////////////
     // MAIN DRAWING LOOP //
     ///////////////////////
@@ -139,7 +144,7 @@ int main()
 
         if (firstFrame)
         {
-            currentPixels = julia(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
+            currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
             // std::cout << "xStart: " << xStart << " xEnd: " << xEnd << " yStart: " << yStart << " yEnd: " << yEnd << std::endl;
             firstFrame = false;
         }
@@ -158,13 +163,21 @@ int main()
             long double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
             long double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
 
-            currentPixels = julia(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
+            currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
             xStart = newX1;
             xEnd = newX2;
             yStart = newY1;
             yEnd = newY2;
 
             zoomChanged = false;
+        }
+
+        if (juliaAnimation) {
+            currentPixels = julia(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels, a);
+            a += speed;
+            if (a > 2 * 3.14159) {
+                a = 0;
+            }
         }
 
         fractalTexture.update(currentPixels);

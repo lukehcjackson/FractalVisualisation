@@ -10,7 +10,7 @@ remember to update n in your fractal function!
 
 //define colour palette array:
 //RAINBOW MODE
-/*
+
 sf::Color colorPalette[18] = {
     sf::Color(0,0,0),
     sf::Color(212,0,0),
@@ -31,7 +31,7 @@ sf::Color colorPalette[18] = {
     sf::Color(244,67,54),
     sf::Color(255,255,255)
 };
-*/
+
 
 //PINK-BLUE PASTEL MODE
 /*
@@ -52,7 +52,7 @@ sf::Color colorPalette[12] = {
 */
 
 //MAGENTA-BLUE MODE
-
+/*
 sf::Color colorPalette[12] = {
     sf::Color(0,0,0),
     sf::Color(247,37,133),
@@ -67,6 +67,7 @@ sf::Color colorPalette[12] = {
     sf::Color(76,201,240),
     sf::Color(255,255,255)
 };
+*/
 
 sf::Color calculatePixelColor_iterative (int iterations, int maxIterations, int colorStepSize) {
 
