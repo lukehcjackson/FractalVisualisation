@@ -27,14 +27,13 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double 
    for (int i = 0; i < WIDTH * HEIGHT * 4; i += 4) {
     //each i is a pixel on the screen
 
-    //need an x,y coordinate
-    //i%WIDTH gives 4 copies, (i*4)%WIDTH gives 16 copies
-    long double x = (i) % (WIDTH*4);
-    long double y = (i * 1.0) / WIDTH;
+    //find x,y coordinate from pixel array index
+    int xCoord = (i % (WIDTH * 4)) / 4;
+    int yCoord = ((i * 1.0) / WIDTH) / 4;
 
-    //map graph coordinates back into pixels to render
-    x = plot_map(xOutStart, xOutEnd, 0, WIDTH, x);
-    y = plot_map(yOutStart, yOutEnd, 0, HEIGHT, y);
+    //convert back into graph coordinates
+    long double x = map(xOutStart, xOutEnd, 0, WIDTH, xCoord);
+    long double y = map(yOutStart, yOutEnd, 0, HEIGHT, yCoord);
     
     long double cx = x;
     long double cy = y;

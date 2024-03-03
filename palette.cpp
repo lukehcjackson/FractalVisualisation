@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 
+#include <iostream>
+
 /*
 USAGE:
 DEFINE colorPalette[n] as an array of sf::Color
@@ -170,3 +172,51 @@ sf::Color calculatePixelColor_senikoThreeColours(int iterations, int maxIteratio
 }
 
 //These algorithms are from https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set
+
+//Histogram Colouring Algorithm
+
+//these are magic numbers but C++ doesnt allow variable sized arrays
+//replace with [WIDTH][HEIGHT] if they ever change!
+int IterationCounts[1600][900];
+
+void calculateIterationCounts(int iterations, int x, int y) {
+    IterationCounts[x][y] = iterations;
+}
+
+void printIterationCounts() {
+    for (int i = 0; i < 1600; i++) {
+        for (int j = 0; j < 900; j++) {
+            std::cout << IterationCounts[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+float hue[1600][900];
+void HistogramColouring() {
+    int NumIterationsPerPixel[50];
+    for (int i = 0; i < 1600; i++) {
+        for (int j = 0; j < 900; j++) {
+            NumIterationsPerPixel[IterationCounts[i][j]]++;
+        }
+    }
+
+    long total = 0;
+    for (int i = 0; i < 50; i++) {
+        total += NumIterationsPerPixel[i];
+    }
+
+    for (int i = 0; i < 1600; i++) {
+        for (int j = 0; j < 900; j++) {
+            int thisIteration = IterationCounts[i][j];
+            for (int k = 0; k <= thisIteration; k++) {
+                hue[i][j] += (NumIterationsPerPixel[k] * 1.0f) / (total * 1.0f);
+            }
+        }
+    }
+}
+
+sf::Color getHistogramColour(int x, int y) {
+    //std::cout << "hue: " << hue[x][y] << std::endl;
+    return colorPalette[static_cast<int>(hue[x][y])];
+}

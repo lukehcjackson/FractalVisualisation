@@ -10,10 +10,12 @@ int HEIGHT = 900;
     
     */
 
+/*
 long double plot_map(long double outStart, long double outEnd, long double inStart, long double inEnd, long double point) {
     long double slope = 1.0 * (outEnd - outStart) / (inEnd - inStart) * 0.25;   
     return outStart + slope * point;
 }
+*/
 
 long double map(long double outStart, long double outEnd, long double inStart, long double inEnd, long double point) {
     long double slope = 1.0 * (outEnd - outStart) / (inEnd - inStart);   
