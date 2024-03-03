@@ -118,19 +118,26 @@ sf::Color calculatePixelColor_iterative (int iterations, int maxIterations) {
 
     int paletteSize = sizeof(colorPalette) / sizeof(colorPalette[0]);
     int colorStepSize = maxIterations / paletteSize;
+
     sf::Color pixelColor;
 
     for (int i = 0; i <= maxIterations; i += colorStepSize) {
-        if (iterations < i) {
+        if (iterations <= i) {
             pixelColor = colorPalette[i / colorStepSize];
             break;
         }
     }
 
-    if (iterations == maxIterations) {
+    //fixes annoying bug where if you make the iterations == maxIterations colour NOT black, some large values of n are still undefined
+    //and so come out as black
+    //this sets the colour for those last few values of n
+    //(todo incorporate into above loop??)
+    if (iterations >= maxIterations - colorStepSize) {
         pixelColor = colorPalette[paletteSize - 1];
-        //pixelColor = sf::Color(0, 0, 0, 255);
+        //pixelColor = sf::Color(0, 0, 0);
     }
+
+    
 
     return pixelColor;
 }
