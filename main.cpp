@@ -98,7 +98,7 @@ int main()
     int zoomPixels = 10;
 
     //JULIA SET ANIMATION VARIABLE
-    static bool juliaAnimation = true;
+    static bool juliaAnimation = false;
     long double a = 0;
     double speed = 0.003;
 
@@ -144,7 +144,8 @@ int main()
 
         if (firstFrame)
         {
-            currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
+            //currentPixels = mandelbrot(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels);
+            currentPixels = julia(WIDTH, HEIGHT, xStart, xEnd, yStart, yEnd, currentPixels, a);
             // std::cout << "xStart: " << xStart << " xEnd: " << xEnd << " yStart: " << yStart << " yEnd: " << yEnd << std::endl;
             firstFrame = false;
         }
@@ -163,7 +164,8 @@ int main()
             long double newX2 = map(xStart, xEnd, xCanvasStart, xCanvasEnd, inputX2);
             long double newY2 = map(yStart, yEnd, yCanvasStart, yCanvasEnd, inputY2);
 
-            currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
+            //currentPixels = mandelbrot(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels);
+            currentPixels = julia(WIDTH, HEIGHT, newX1, newX2, newY1, newY2, currentPixels, a);
             xStart = newX1;
             xEnd = newX2;
             yStart = newY1;

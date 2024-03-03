@@ -145,3 +145,28 @@ sf::Color calculatePixelColor_iterative (int iterations, int maxIterations) {
 sf::Color calculatePixelColor_iterativeGreyscale (int iterations, int maxIterations) {
     return sf::Color(iterations * 255 / maxIterations, iterations * 255 / maxIterations, iterations * 255 / maxIterations, 255);
 }
+
+//I GOT LOTS OF THESE COLOURING ALGORITHMS FROM https://www.sekinoworld.com/fractal/coloring.htm#fig1
+
+sf::Color calculatePixelColor_senikoTwoColours(int iterations, sf::Color c1, sf::Color c2) {
+    if (iterations % 2 == 0) {
+        return c1;
+    }
+    else {
+        return c2;
+    }
+}
+
+sf::Color calculatePixelColor_senikoThreeColours(int iterations, int maxIterations, sf::Color c1, sf::Color c2, sf::Color c3) {
+    if (iterations == maxIterations) {
+        return c3;
+    }
+    if (iterations % 2 == 0) {
+        return c1;
+    }
+    else {
+        return c2;
+    }
+}
+
+//These algorithms are from https://en.wikipedia.org/wiki/Plotting_algorithms_for_the_Mandelbrot_set
