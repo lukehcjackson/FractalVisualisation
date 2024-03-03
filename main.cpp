@@ -100,7 +100,7 @@ int main()
     //JULIA SET ANIMATION VARIABLE
     static bool juliaAnimation = true;
     long double a = 0;
-    double speed = 0.001;
+    double speed = 0.003;
 
     ///////////////////////
     // MAIN DRAWING LOOP //

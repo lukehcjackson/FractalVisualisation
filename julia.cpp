@@ -8,9 +8,9 @@ long double c_re = -0.20335400390625002;
 long double c_im = -0.677032470703125;
 // R > 0 such that R**2 - R >= sqrt(c_re **2 + c_im **2)
 const double escapeRadius = 2;
-const int MAX_ITERATIONS = 50;
+const int MAX_ITERATIONS = 100;
 
-extern sf::Color colorPalette[18];
+extern sf::Color colorPalette[40];
 
 
 sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutEnd, long double yOutStart, long double yOutEnd, sf::Uint8 *pixels, long double a)
@@ -52,8 +52,7 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
             n++;
         }
 
-        int colorStepSize = MAX_ITERATIONS / (sizeof(colorPalette) / sizeof(colorPalette[0]));
-        sf::Color pixelColor = calculatePixelColor_iterative(n, MAX_ITERATIONS, colorStepSize);
+        sf::Color pixelColor = calculatePixelColor_iterative(n, MAX_ITERATIONS);
         // GREYSCALE MODE
         //sf::Color pixelColor = calculatePixelColor_iterativeGreyscale(n, MAX_ITERATIONS);
 

@@ -65,8 +65,7 @@ sf::Uint8* mandelbrot(int WIDTH, int HEIGHT, long double xOutStart, long double 
     }
     
     //we now want to colour the pixels depending on how many iterations they took to diverge
-    int colorStepSize = MAX_ITERATIONS / (sizeof(colorPalette) / sizeof(colorPalette[0]));
-    sf::Color pixelColor = calculatePixelColor_iterative(n, MAX_ITERATIONS, colorStepSize);
+    sf::Color pixelColor = calculatePixelColor_iterative(n, MAX_ITERATIONS);
 
     //GREYSCALE MODE
     //sf::Color pixelColor = calculatePixelColor_iterativeGreyscale(n, MAX_ITERATIONS);

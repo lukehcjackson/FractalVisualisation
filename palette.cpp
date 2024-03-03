@@ -10,7 +10,7 @@ remember to update n in your fractal function!
 
 //define colour palette array:
 //RAINBOW MODE
-
+/*
 sf::Color colorPalette[18] = {
     sf::Color(0,0,0),
     sf::Color(212,0,0),
@@ -31,7 +31,7 @@ sf::Color colorPalette[18] = {
     sf::Color(244,67,54),
     sf::Color(255,255,255)
 };
-
+*/
 
 //PINK-BLUE PASTEL MODE
 /*
@@ -69,14 +69,67 @@ sf::Color colorPalette[12] = {
 };
 */
 
-sf::Color calculatePixelColor_iterative (int iterations, int maxIterations, int colorStepSize) {
+//PURPLE-GREEN
 
+sf::Color colorPalette[40] = {
+    sf::Color(34, 18, 217),
+    sf::Color(0, 38, 228),
+    sf::Color(0, 55, 210),
+    sf::Color(0, 65, 197),
+    sf::Color(0, 73, 189),
+    sf::Color(0, 80, 183),
+    sf::Color(0, 86, 179),
+    sf::Color(0, 92, 177),
+    sf::Color(0, 97, 175),
+    sf::Color(0, 102, 174),
+    sf::Color(0, 107, 174),
+    sf::Color(0, 112, 174),
+    sf::Color(0, 117, 175),
+    sf::Color(0, 122, 176),
+    sf::Color(0, 127, 176),
+    sf::Color(0, 132, 177),
+    sf::Color(0, 137, 178),
+    sf::Color(0, 142, 179),
+    sf::Color(0, 147, 180),
+    sf::Color(0, 152, 180),
+    sf::Color(0, 157, 181),
+    sf::Color(0, 162, 181),
+    sf::Color(0, 167, 181),
+    sf::Color(0, 172, 181),
+    sf::Color(0, 177, 180),
+    sf::Color(0, 182, 179),
+    sf::Color(0, 187, 178),
+    sf::Color(0, 192, 176),
+    sf::Color(0, 197, 173),
+    sf::Color(0, 203, 170),
+    sf::Color(0, 208, 165),
+    sf::Color(0, 213, 160),
+    sf::Color(0, 219, 153),
+    sf::Color(0, 224, 144),
+    sf::Color(0, 230, 134),
+    sf::Color(0, 235, 120),
+    sf::Color(0, 241, 103),
+    sf::Color(0, 247, 78),
+    sf::Color(0, 252, 38),
+    sf::Color(5, 255, 0)
+};
+
+sf::Color calculatePixelColor_iterative (int iterations, int maxIterations) {
+
+    int paletteSize = sizeof(colorPalette) / sizeof(colorPalette[0]);
+    int colorStepSize = maxIterations / paletteSize;
     sf::Color pixelColor;
-    for (int i = 0; i < maxIterations; i += colorStepSize) {
+
+    for (int i = 0; i <= maxIterations; i += colorStepSize) {
         if (iterations < i) {
             pixelColor = colorPalette[i / colorStepSize];
             break;
         }
+    }
+
+    if (iterations == maxIterations) {
+        pixelColor = colorPalette[paletteSize - 1];
+        //pixelColor = sf::Color(0, 0, 0, 255);
     }
 
     return pixelColor;
