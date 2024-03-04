@@ -98,7 +98,7 @@ int main()
     int zoomPixels = 10;
 
     //JULIA SET ANIMATION VARIABLE
-    static bool juliaAnimation = true;
+    static bool juliaAnimation = false;
     long double a = 0;
     double speed = 0.003;
 

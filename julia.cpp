@@ -10,9 +10,9 @@ long double c_re = -0.77146;
 long double c_im = -0.10119;
 // R > 0 such that R**2 - R >= sqrt(c_re **2 + c_im **2)
 const double escapeRadius = 2;
-const int MAX_ITERATIONS = 50;
+const int MAX_ITERATIONS = 1000;
 
-extern sf::Color colorPalette[40];
+extern sf::Color colorPalette[18];
 
 
 sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutEnd, long double yOutStart, long double yOutEnd, sf::Uint8 *pixels, long double a)
@@ -24,8 +24,8 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
     just comment out the two lines below to use a fixed value of c
     */
    
-    c_re = 0.7885 * cos(a);
-    c_im = 0.7885 * sin(a);
+    //c_re = 0.7885 * cos(a);
+    //c_im = 0.7885 * sin(a);
     
     omp_set_num_threads(10);
     #pragma omp parallel for
@@ -63,17 +63,22 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
         //sf::Color pixelColor = calculatePixelColor_senikoTwoColours(n, sf::Color::Black, sf::Color::White);
         //sf::Color pixelColor = calculatePixelColor_senikoThreeColours(n, MAX_ITERATIONS, sf::Color::Black, sf::Color::White, sf::Color::Red);
 
-        /*
+        int NUM = 255;
+        float POWER = 1.0f;
+        long double v = fmod(pow((pow((n * 1.0f) / (MAX_ITERATIONS * 1.0f), POWER) * NUM), 1.5), NUM);
+        sf::Color pixelColor = sf::Color(v * 255, v * 255, v * 255, 255);
+        
         pixels[i] = pixelColor.r;
         pixels[i + 1] = pixelColor.g;
         pixels[i + 2] = pixelColor.b;
         pixels[i + 3] = pixelColor.a;
-        */
+        
 
-        calculateIterationCounts(n, xCoord, yCoord);
+        //calculateIterationCounts(n, xCoord, yCoord);
 
     }
 
+    /*
     //printIterationCounts();
     HistogramColouring();
     #pragma omp parallel for
@@ -89,6 +94,7 @@ sf::Uint8* julia(int WIDTH, int HEIGHT, long double xOutStart, long double xOutE
         pixels[i + 3] = pixelColor.a;
     }
     resetHistogramColouring();
+    */
     
 
     return pixels;

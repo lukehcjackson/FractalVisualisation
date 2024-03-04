@@ -13,7 +13,7 @@ remember to update n in your fractal function!
 
 //define colour palette array:
 //RAINBOW MODE
-/*
+
 sf::Color colorPalette[18] = {
     sf::Color(0,0,0),
     sf::Color(212,0,0),
@@ -34,7 +34,7 @@ sf::Color colorPalette[18] = {
     sf::Color(244,67,54),
     sf::Color(255,255,255)
 };
-*/
+
 
 //PINK-BLUE PASTEL MODE
 /*
@@ -73,7 +73,7 @@ sf::Color colorPalette[12] = {
 */
 
 //PURPLE-GREEN
-
+/*
 sf::Color colorPalette[40] = {
     sf::Color(34, 18, 217),
     sf::Color(0, 38, 228),
@@ -116,7 +116,7 @@ sf::Color colorPalette[40] = {
     sf::Color(0, 252, 38),
     sf::Color(5, 255, 0)
 };
-
+*/
 sf::Color calculatePixelColor_iterative (int iterations, int maxIterations) {
 
     int paletteSize = sizeof(colorPalette) / sizeof(colorPalette[0]);
@@ -198,8 +198,8 @@ void printIterationCounts() {
 float hue[1600][900];
 void HistogramColouring() {
     //LENGTH: MAX_ITERATIONS + 1 (0 to MAX_ITERATIONS inclusive)
-    long double NumIterationsPerPixel[51];
-    for (int i = 0; i <= 50; i++) {
+    long double NumIterationsPerPixel[1001];
+    for (int i = 0; i <= sizeof(NumIterationsPerPixel) / sizeof(NumIterationsPerPixel[0]); i++) {
         NumIterationsPerPixel[i] = 0;
     }
 
@@ -212,7 +212,7 @@ void HistogramColouring() {
     }
 
     long total = 0;
-    for (int i = 0; i <= 50; i++) {
+    for (int i = 0; i <= sizeof(NumIterationsPerPixel) / sizeof(NumIterationsPerPixel[0]); i++) {
         total += NumIterationsPerPixel[i];
     }
 
